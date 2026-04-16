@@ -1,0 +1,82 @@
+*{
+    margin: 0;
+    padding: 0;
+    border: 0;
+
+    box-sizing: border-box;
+
+
+    --objectCard-background: rgb(26, 25, 25);
+    --Webb-title-blue: rgb(2, 27, 171);
+    --Webb-title-pink: rgb(255, 0, 170);
+}
+
+body {
+     background-color: black;
+}
+
+.no-show {
+     display: none;
+}
+
+header {
+     display: flex;
+     justify-content: space-between;
+}
+
+header > h1 {
+     color: white;
+     margin: 25px 50px 75px 200px;     
+     font-size: 80px;
+     background: linear-gradient(to right, var(--Webb-title-blue), var(--Webb-title-pink));
+     -webkit-background-clip: text;
+     background-clip: text;
+     color: transparent;
+}
+
+#searchBar {
+     border-radius: 10px;
+     margin: 50px 150px 75px 100px;     
+     height: 40px;
+     width: 550px;
+     padding: 10px;
+     font-size: 30px;
+     border-color: blue;
+     color: blue;
+}
+
+/* #home-view {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+} */
+
+#home-view > h2 {
+     color: white;
+     margin-bottom: 10px;
+     font-size: 30px;
+}
+
+.movie-card {
+     display: flex;
+     flex-direction: column;
+     background-color: rgb(26, 25, 25);
+}
+
+.movie-card > img {
+     width: 200px;
+}
+
+.movie-card > div{
+     display: flex;
+}
+
+.movie-card > div > p, .movie-card p{
+     color: white;
+     margin: 5px;
+     font-size: 20px;
+}
+
+.movie-card > p:last-child {
+     color: grey;
+}
