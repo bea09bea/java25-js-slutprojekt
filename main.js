@@ -20,6 +20,20 @@ async function loadPopularMovies() {
      displayMovies(movies, 'popular');
 }
 
+async function loadGenres() {
+     const url = 'https://api.themoviedb.org/3/genre/movie/list?language=en';
+     const data = await fetchUrl(url);
+     const genres = data.genres.map(g => g.name);
+     return genres;
+}
+
+async function loadMovies() {
+     const url = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1';
+     const data = await fetchUrl(url);
+     const movies = data.results.map(m => new Movie(m));
+     displayMovies(movies, 'search');
+}
+
 async function loadTopMovies() {
      const url = 'https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1';
 
@@ -46,7 +60,6 @@ function createMovieCard(movie, type) {
      const showMore = document.createElement('p');
      
      img.src = 'https://image.tmdb.org/t/p/w500' + movie.getImg();
-     console.log(movie.getImg());
      star.innerText = '\u2606 ' + movie.getRating();
      showMore.innerText = 'Show more';
      movieCard.classList.add('movie-card');
@@ -59,6 +72,8 @@ function createMovieCard(movie, type) {
           popularMovies(movieCard);
      } else if(type === 'top') {
           topTenMovies(movieCard);
+     } else if(type === 'search') {
+          search(movieCard);
      }
 }
 
@@ -70,8 +85,32 @@ function topTenMovies(movieCard) {
      topTen.append(movieCard);
 }
 
+function search(movieCard) {
+     document.querySelector('.search-content').append(movieCard);
+}
+
 function start() {
      loadPopularMovies();
      loadTopMovies();
+     loadMovies();
 }
 start();
+
+const dropdown = document.querySelector('.dropdown-content');
+const dropdownBtn = document.querySelector('.dropdown-btn');
+dropdownBtn.addEventListener('click', function(){
+     dropdown.classList.toggle('show');
+     dropdownBtn.classList.toggle('borderBtn');
+
+     loadGenres().then(genres => {
+     genres.forEach(genreName => {
+               const genreDiv = document.createElement('div');
+               genreDiv.innerText = genreName;
+               dropdown.append(genreDiv);
+          }); 
+     });
+});
+
+function filterGenre(params) {
+     
+}

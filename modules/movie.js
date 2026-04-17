@@ -5,6 +5,7 @@ export class Movie {
      #description
      #rating
      #releaseDate
+     #genre
      
      constructor(data){
           this.#id = this.#generateID;
@@ -13,6 +14,7 @@ export class Movie {
           this.#description = data.overview;
           this.#rating = data.vote_average;
           this.#releaseDate = data.release_date;
+          this.#genre = data.genre;
      }
 
      #generateID(){

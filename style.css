@@ -5,11 +5,10 @@
 
     box-sizing: border-box;
 
-
     --objectCard-background: rgb(26, 25, 25);
     --Webb-title-light-blue: rgb(3, 28, 173);
     --Webb-title-blue: rgb(1, 15, 97);
-    --Webb-title-pink: rgb(119, 11, 125);
+    --Webb-title-purple: rgb(119, 11, 125);
 }
 
 body {
@@ -30,7 +29,7 @@ header > h1 {
      color: white;
      margin: 25px 50px 75px 200px;     
      font-size: 80px;
-     background: linear-gradient(to right, var(--Webb-title-light-blue), var(--Webb-title-pink));
+     background: linear-gradient(to right, var(--Webb-title-light-blue), var(--Webb-title-purple));
      -webkit-background-clip: text;
      background-clip: text;
      color: transparent;
@@ -96,5 +95,59 @@ header > h1 {
 }
 
 .popular {
+     display: flex;
+}
+
+.dropdown {
+     position: relative;
+     display: inline-block;
+     margin-left: 100px;
+}
+
+.dropdown-btn {
+     background-color: black;
+/*      border: 2px solid white;
+ */     height: 50px;
+     width: 200px;
+     cursor: pointer;
+     font-size: 25px;
+     border-radius: 10px;
+     color: white;
+}
+
+.dropdown-btn:hover {
+     background-color: var(--Webb-title-purple);
+     color: black;
+}
+
+.dropdown-content {
+     display: none;
+     position: absolute;
+     background-color: white;
+     min-width: 200px;
+     border: 1px solid black;
+     z-index: 1;
+}
+
+.dropdown-content div {
+     color: black;
+     padding: 12px 16px;
+     display: block;
+     cursor: pointer;
+}
+
+.dropdown-content div:hover {
+     background-color: blue;
+}
+
+.show {
+     display: block;
+}
+
+.borderBtn {
+     border-radius: 10px 10px 0px 0px;
+}
+
+.search-content {
      display: flex;
 }
