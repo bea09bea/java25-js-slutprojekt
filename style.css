@@ -7,12 +7,14 @@
 
 
     --objectCard-background: rgb(26, 25, 25);
-    --Webb-title-blue: rgb(2, 27, 171);
-    --Webb-title-pink: rgb(255, 0, 170);
+    --Webb-title-light-blue: rgb(3, 28, 173);
+    --Webb-title-blue: rgb(1, 15, 97);
+    --Webb-title-pink: rgb(119, 11, 125);
 }
 
 body {
      background-color: black;
+     background: linear-gradient(to bottom, black, var(--Webb-title-blue));;
 }
 
 .no-show {
@@ -28,7 +30,7 @@ header > h1 {
      color: white;
      margin: 25px 50px 75px 200px;     
      font-size: 80px;
-     background: linear-gradient(to right, var(--Webb-title-blue), var(--Webb-title-pink));
+     background: linear-gradient(to right, var(--Webb-title-light-blue), var(--Webb-title-pink));
      -webkit-background-clip: text;
      background-clip: text;
      color: transparent;
@@ -51,16 +53,24 @@ header > h1 {
      align-items: center;
 } */
 
-#home-view > h2 {
+#home-view h2 {
      color: white;
      margin-bottom: 10px;
      font-size: 30px;
+}
+
+.popularContainer, .topTenContainer {
+     display: flex;
+     flex-direction: column;
+     margin: 30px;
+     margin-bottom: 50px;
 }
 
 .movie-card {
      display: flex;
      flex-direction: column;
      background-color: rgb(26, 25, 25);
+     margin-right: 25px;
 }
 
 .movie-card > img {
@@ -71,7 +81,7 @@ header > h1 {
      display: flex;
 }
 
-.movie-card > div > p, .movie-card p{
+.movie-card > div > p, .movie-card > p{
      color: white;
      margin: 5px;
      font-size: 20px;
@@ -79,4 +89,12 @@ header > h1 {
 
 .movie-card > p:last-child {
      color: grey;
+}
+
+.topTen {
+     display: flex;
+}
+
+.popular {
+     display: flex;
 }
