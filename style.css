@@ -46,16 +46,16 @@ header > h1 {
      color: blue;
 }
 
-/* #home-view {
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-} */
-
-#home-view h2 {
+#movie-view h2, #person-view h2 {
      color: white;
      margin-bottom: 10px;
      font-size: 30px;
+}
+
+#person-view {
+     display: flex;
+     flex-direction: column;
+     margin: 30px;
 }
 
 .popularContainer, .topTenContainer {
@@ -65,14 +65,14 @@ header > h1 {
      margin-bottom: 50px;
 }
 
-.movie-card {
+.movie-card, .personCard {
      display: flex;
      flex-direction: column;
      background-color: rgb(26, 25, 25);
      margin-right: 25px;
 }
 
-.movie-card > img {
+.movie-card > img, .personCard > img {
      width: 200px;
 }
 
@@ -80,14 +80,39 @@ header > h1 {
      display: flex;
 }
 
-.movie-card > div > p, .movie-card > p{
+.movie-card > div > p, .movie-card > p, .personCard p {
      color: white;
      margin: 5px;
      font-size: 20px;
 }
 
-.movie-card > p:last-child {
+.person-container {
+     display: flex;
+}
+
+.personCard > p:first-of-type {
+     font-weight: bolder;
+}
+
+#knownFor {
+     margin-bottom: 0px;
+}
+
+ul {
+     margin: 0px;
+}
+
+li {
+     color: white;
+     margin-top: 0px;
+     margin: 5px;
+     margin-left: 20px;
+     font-size: 20px;
+}
+
+.movie-card > p:last-child, .personCard > p:last-child {
      color: grey;
+     cursor: pointer;
 }
 
 .topTen {
@@ -106,8 +131,7 @@ header > h1 {
 
 .dropdown-btn {
      background-color: black;
-/*      border: 2px solid white;
- */     height: 50px;
+     height: 50px;
      width: 200px;
      cursor: pointer;
      font-size: 25px;
@@ -149,5 +173,14 @@ header > h1 {
 }
 
 .search-content {
+     display: grid;
+     grid-template-columns: repeat(5, 1fr);
+     gap: 20px;
+     margin-top: 30px;
+     justify-content: center;
+     align-items: center;
+}
+
+.search-nav {
      display: flex;
 }

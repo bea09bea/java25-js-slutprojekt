@@ -3,18 +3,14 @@ export class Person {
      #img
      #name
      #professionalRole
-     #knownFor
+     #famousWork
      
-     constructor(img, name, professionalRole, knownFor){
-          this.#id = this.#generateID;
-          this.#img = img;
-          this.#name = name;
-          this.#professionalRole = professionalRole;
-          this.#knownFor = knownFor;
-     }
-
-     #generateID(){
-          return Math.round(Math.random()*1000000);
+     constructor(data){
+          this.#id = data.id;
+          this.#img = data.profile_path;
+          this.#name = data.name;
+          this.#professionalRole = data.known_for_department;
+          this.#famousWork = this.#famousWork;
      }
 
      getID(){
@@ -33,8 +29,8 @@ export class Person {
           return this.#professionalRole;
      }
 
-     getKnownFor(){
-          return this.#knownFor;
+     getFamousWork(){
+          return this.#famousWork;
      }
 
      setID(newID){
@@ -53,7 +49,7 @@ export class Person {
           this.#professionalRole = newProfessionalRole;
      }
 
-     setKnownFor(newRole){
-          this.#knownFor = newRole;
+     setFamousWork(newRole){
+          this.#famousWork = newRole;
      }
 }

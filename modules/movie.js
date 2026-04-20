@@ -8,7 +8,7 @@ export class Movie {
      #genre
      
      constructor(data){
-          this.#id = this.#generateID;
+          this.#id = data.id;
           this.#img = data.poster_path;
           this.#title = data.title;
           this.#description = data.overview;
