@@ -21,7 +21,7 @@ export class Person {
           this.#gender = data.gender;
      }
 
-     getID(){
+     getId(){
           return this.#id;
      }
 

@@ -17,7 +17,7 @@ export class Movie {
           this.#genre = data.genre;
      }
 
-     getID(){
+     getId(){
           return this.#id;
      }
 
@@ -40,7 +40,4 @@ export class Movie {
      getReleaseDate(){
           return this.#releaseDate;
      }
-
-
-
 }

@@ -1,4 +1,7 @@
-import {displayMovies, displayPersons} from "./ui.js";
+// Här hämtas data från API med GET-förfrågan och returnerar JSON-svar
+// datan görs om till objekt för att sedan användas i movieUi.js & personUi.js 
+
+import {displayMovies, displayPersons} from "./movieUi.js";
 import { Movie } from "./movieClass.js";
 import { Person } from "./personClass.js";
 
@@ -95,4 +98,26 @@ export async function loadPerson() {
      const persons = data.results.map(p => new Person(p));
 
      displayPersons(persons, 'popular');
+}
+
+export async function personWork(id) {
+     const url = `https://api.themoviedb.org/3/person/${id}/combined_credits`
+     const data = await fetchUrl(url);
+
+     const top5 = data.cast
+          .filter(m => m.media_type === 'movie')
+          .sort((a, b) => b.popularity - a.popularity)
+          .slice(0,5);
+
+          return top5;
+}
+
+export async function loadPersonDetails(id) {
+     const url = `https://api.themoviedb.org/3/person/${id}`;
+     const data = await fetchUrl(url);
+     const person = new Person(data);
+
+     const top5 = await personWork(person.getID());
+
+     displayPersons(person, top5);
 }

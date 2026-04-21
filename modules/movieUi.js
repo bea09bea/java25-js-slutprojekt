@@ -1,6 +1,8 @@
+//Här är grunden för det visuella för filmer
+//Alltså hur html är uppbyggd och hur datan från api används
+
 import {loadGenres, loadMovies} from "./api.js";
 
-//Movies
 const popular = document.createElement('div');
 popular.classList.add('popular');
 document.querySelector('.popularContainer').append(popular);
@@ -42,6 +44,8 @@ function createMovieCard(movie, type) {
      } else if(type === 'search') {
           search(movieCard);
      }
+
+     showMore.href = `./detail/detail.html?movie=` + movie.getId();
 }
 
 function popularMovies(movieCard) {
@@ -55,42 +59,6 @@ function topTenMovies(movieCard) {
 function search(movieCard) {
      const searchContent = document.querySelector('.search-content');
      searchContent.append(movieCard);
-}
-
-
-//Persons
-
-export function displayPersons(persons, type) {
-     persons.forEach(person => {
-          createPersonCard(person, type);
-     })
-}
-
-function createPersonCard(person, type) {
-     const personCard = document.createElement('div');
-     const img = document.createElement('img');
-     const name = document.createElement('p');
-     const professionRole = document.createElement('p');
-     const knownFor = document.createElement('p');
-     const famousWork = document.createElement('ul');
-     const showMore = document.createElement('a');
-
-     personCard.classList.add('personCard');
-     img.src = 'https://image.tmdb.org/t/p/w500' + person.getImg();
-     name.innerText = person.getName();
-     professionRole.innerText = person.getProfessionalRole();
-     knownFor.id = 'knownFor';
-     knownFor.innerText = 'Known for: ';
-     showMore.innerText = 'Show more';
-     personCard.append(img, name, professionRole, knownFor, famousWork, showMore);
-
-     if (type === 'popular') {
-          document.querySelector('.person-container').append(personCard);
-     } else if(type === 'search') {
-          document.querySelector('.search-content').append(personCard);
-     }
-
-     showMore.href = `/detail/detail.html?person=` + person.getID();
 }
 
 export function dropdownButton() {

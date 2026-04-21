@@ -1,5 +1,5 @@
 import { fetchUrl, loadPopularMovies, loadTopMovies, loadPerson, loadMovies } from "./modules/api.js";
-import { dropdownButton } from "./modules/ui.js";
+import { dropdownButton } from "./modules/movieUi.js";
 import { Movie } from "./modules/movieClass.js";
 import { Person } from "./modules/personClass.js";
 
