@@ -2,19 +2,21 @@ export class Movie {
      #id
      #img
      #title
-     #description
+     #overview
      #rating
      #releaseDate
      #genre
+     #description
      
      constructor(data){
           this.#id = data.id;
           this.#img = data.poster_path;
           this.#title = data.title;
-          this.#description = data.overview;
           this.#rating = data.vote_average;
           this.#releaseDate = data.release_date;
-          this.#genre = data.genre;
+          this.#genre = data.genres;
+          this.#description = data.description;
+          this.#overview = data.overview;
      }
 
      getId(){
@@ -29,8 +31,8 @@ export class Movie {
           return this.#img;
      }
 
-     getDescription(){
-          return this.#description;
+     getOverview(){
+          return this.#overview;
      }
 
      getRating(){
@@ -39,5 +41,13 @@ export class Movie {
 
      getReleaseDate(){
           return this.#releaseDate;
+     }
+
+     getGenre() {
+          return this.#genre;
+     }
+
+     getDescription() {
+          return this.#description;
      }
 }

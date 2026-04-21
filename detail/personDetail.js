@@ -1,6 +1,5 @@
 import { fetchUrl, personWork, loadPersonDetails } from "../modules/api.js";
-import { Movie } from "../modules/movie.js";
-import { Person } from "../modules/person.js";
+import { Person } from "../modules/personClass.js";
 
 const params = new URLSearchParams(window.location.search);
 const personId = params.get('person');
@@ -8,6 +7,28 @@ const personId = params.get('person');
 if (personId) {
      loadPersonDetails(personId);
 } 
+
+/* export async function personWork(id) {
+     const url = `https://api.themoviedb.org/3/person/${id}/combined_credits`
+     const data = await fetchUrl(url);
+
+     const top5 = data.cast
+          .filter(m => m.media_type === 'movie')
+          .sort((a, b) => b.popularity - a.popularity)
+          .slice(0,5);
+
+          return top5;
+}
+
+export async function loadPersonDetails(id) {
+     const url = `https://api.themoviedb.org/3/person/${id}`;
+     const data = await fetchUrl(url);
+     const person = new Person(data);
+
+     const top5 = await personWork(person.getId());
+
+     displayPersonsDetail(person, top5);
+} */
 
 function gender(value) {
      if (value === 3) {
@@ -21,7 +42,7 @@ function gender(value) {
      }
 }
 
-function displayPersons(person, top5) {
+export function displayPersonsDetail(person, top5) {
 
      //PartOne (IMG & basic information)
      const img = document.createElement('img');
@@ -41,6 +62,8 @@ function displayPersons(person, top5) {
      from.innerText = 'From: ' + person.getFrom();
      genderP.innerText = 'Gender: ' + gender(genderNumber);
 
+     info.append(name, role, birthday, from, genderP);
+     document.querySelector('.partOne').append(img, info);
 
      //PartTwo (Vilka filmer personen är känd för)
      const knownForText = document.createElement('h2');
@@ -57,6 +80,7 @@ function displayPersons(person, top5) {
           movieImg.src = 'https://image.tmdb.org/t/p/w500' + movie.poster_path;
           movieTitle.innerText = movie.title;
           card.classList.add('card');
+
           card.append(movieImg, movieTitle);
           workContainer.append(card);
      });
@@ -67,8 +91,5 @@ function displayPersons(person, top5) {
      biography.innerText = person.getBiography();
      biographyText.innerText = 'Biography';
 
-     //Append
-     info.append(name, role, birthday, from, genderP);
-     document.querySelector('.partOne').append(img, info);
      document.querySelector('.partThree').append(biographyText, biography);
 }

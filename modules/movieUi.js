@@ -3,13 +3,12 @@
 
 import {loadGenres, loadMovies} from "./api.js";
 
-const popular = document.createElement('div');
-popular.classList.add('popular');
-document.querySelector('.popularContainer').append(popular);
 
 const topTen = document.createElement('div');
 topTen.classList.add('topTen');
-document.querySelector('.topTenContainer').append(topTen);
+
+const popular = document.createElement('div');
+popular.classList.add('popular');
 
 
 export function displayMovies(movies, type) {
@@ -49,10 +48,14 @@ function createMovieCard(movie, type) {
 }
 
 function popularMovies(movieCard) {
+     document.querySelector('.popularContainer').append(popular);
+
      popular.append(movieCard);
 }
 
 function topTenMovies(movieCard) {
+     document.querySelector('.topTenContainer').append(topTen);
+
      topTen.append(movieCard);
 }
 

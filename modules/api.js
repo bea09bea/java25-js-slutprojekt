@@ -1,7 +1,11 @@
 // Här hämtas data från API med GET-förfrågan och returnerar JSON-svar
 // datan görs om till objekt för att sedan användas i movieUi.js & personUi.js 
 
-import {displayMovies, displayPersons} from "./movieUi.js";
+import {displayMoviesDetail} from "../detail/movieDetail.js";
+import {displayPersonsDetail} from "../detail/personDetail.js";
+import { displayMovies } from "./movieUi.js";
+import { displayPersons } from "./personUi.js";
+
 import { Movie } from "./movieClass.js";
 import { Person } from "./personClass.js";
 
@@ -117,7 +121,17 @@ export async function loadPersonDetails(id) {
      const data = await fetchUrl(url);
      const person = new Person(data);
 
-     const top5 = await personWork(person.getID());
+     const top5 = await personWork(person.getId());
 
-     displayPersons(person, top5);
+     displayPersonsDetail(person, top5);
+}
+
+export async function loadMovieDetails(id) {
+     const url = `https://api.themoviedb.org/3/movie/${id}`;
+     const data = await fetchUrl(url);
+     const movie = new Movie(data);
+     console.log(data)
+     console.log(movie)
+
+     displayMoviesDetail(movie);
 }
