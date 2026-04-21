@@ -4,6 +4,10 @@ export class Person {
      #name
      #professionalRole
      #famousWork
+     #biography
+     #birthday
+     #from
+     #gender
      
      constructor(data){
           this.#id = data.id;
@@ -11,6 +15,10 @@ export class Person {
           this.#name = data.name;
           this.#professionalRole = data.known_for_department;
           this.#famousWork = this.#famousWork;
+          this.#biography = data.biography;
+          this.#birthday = data.birthday;
+          this.#from = data.place_of_birth;
+          this.#gender = data.gender;
      }
 
      getID(){
@@ -31,6 +39,22 @@ export class Person {
 
      getFamousWork(){
           return this.#famousWork;
+     }
+
+     getBirthday() {
+          return this.#birthday;
+     }
+
+     getFrom() {
+          return this.#from
+     }
+
+     getBiography() {
+          return this.#biography;
+     }
+
+     getGender(){
+          return this.#gender;
      }
 
      setID(newID){

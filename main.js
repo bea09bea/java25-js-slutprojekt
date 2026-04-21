@@ -112,7 +112,7 @@ function createMovieCard(movie, type) {
      const starContainer = document.createElement('div');
      const star = document.createElement('p');
      const title = document.createElement('p');
-     const showMore = document.createElement('p');
+     const showMore = document.createElement('a');
      
      img.src = 'https://image.tmdb.org/t/p/w500' + movie.getImg();
      star.innerText = '\u2606 ' + movie.getRating();
@@ -156,9 +156,8 @@ function createPersonCard(person, type) {
           document.querySelector('.search-content').append(personCard);
      }
 
-     showMore.href = `/datail/detail.html?person=` + person.getID();
-/*      showMore.href = '../detail/detail.html';
- */}
+     showMore.href = `/detail/detail.html?person=` + person.getID();
+}
 
 function popularMovies(movieCard) {
      popular.append(movieCard);

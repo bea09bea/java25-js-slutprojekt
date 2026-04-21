@@ -110,9 +110,16 @@ li {
      font-size: 20px;
 }
 
-.movie-card > p:last-child, .personCard > p:last-child {
+.movie-card > a, .personCard > a {
      color: grey;
      cursor: pointer;
+     text-decoration: none;
+     font-size: 20px;
+     margin: 5px;
+}
+
+.movie-card > a:hover, .personCard > a:hover {
+     color: white;
 }
 
 .topTen {
