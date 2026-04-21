@@ -17,10 +17,6 @@ export class Movie {
           this.#genre = data.genre;
      }
 
-     #generateID(){
-          return Math.round(Math.random()*1000000);
-     }
-
      getID(){
           return this.#id;
      }
@@ -46,28 +42,5 @@ export class Movie {
      }
 
 
-     setID(newID){
-          this.#id = newID;
-     }
-
-     setTitle(newTitle){
-          this.#title = newTitle;
-     }
-
-     setImg(newImg){
-          this.#img = newImg;
-     }
-
-     setDescription(newDescription){
-          this.#description = newDescription;
-     }
-
-     setRating(newRating){
-          this.#rating = newRating;
-     }
-
-     setReleaseDate(newReleaseDate){
-          this.#releaseDate = newReleaseDate;
-     }
 
 }

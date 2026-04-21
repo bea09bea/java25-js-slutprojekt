@@ -56,24 +56,4 @@ export class Person {
      getGender(){
           return this.#gender;
      }
-
-     setID(newID){
-          this.#id = newID;
-     }
-
-     setImg(newImg){
-          this.#img = newImg;
-     }
-
-     setName(newName){
-          this.#name = newName;
-     }
-
-     setProfessionalRole(newProfessionalRole){
-          this.#professionalRole = newProfessionalRole;
-     }
-
-     setFamousWork(newRole){
-          this.#famousWork = newRole;
-     }
 }
