@@ -3,8 +3,8 @@
 
 import {displayMoviesDetail} from "../detail/movieDetail.js";
 import {displayPersonsDetail} from "../detail/personDetail.js";
-import { displayMovies } from "./movieUi.js";
-import { displayPersons } from "./personUi.js";
+import { displayMovies, displayPopularMovies, displayTopMovies, displayGenres } from "./movieUi.js";
+import { displayPersons, displayPopularPerson } from "./personUi.js";
 
 import { Movie } from "./movieClass.js";
 import { Person } from "./personClass.js";
@@ -29,7 +29,7 @@ export async function loadPopularMovies() {
      const data = await fetchUrl(url);
      const top10Popular = data.results.slice(0,10);
      const movies = top10Popular.map(movie => new Movie(movie));
-     displayMovies(movies, 'popular');
+     displayPopularMovies(movies);
 }
 
 export async function loadTopMovies() {
@@ -40,7 +40,7 @@ export async function loadTopMovies() {
      //10 första
      const top10 = data.results.slice(0,10);
      const movies = top10.map(m => new Movie(m));
-     displayMovies(movies, 'top');
+     displayTopMovies(movies);
 }
 
 export async function loadGenres() {
@@ -58,7 +58,8 @@ export async function loadMovies(genreId) {
 
      const data = await fetchUrl(url);
      const movies = data.results.map(m => new Movie(m));
-     displayMovies(movies, 'search');
+
+     displayGenres(movies);
 }
 
 export async function searchMovies(query) {
@@ -68,6 +69,8 @@ export async function searchMovies(query) {
      const movies = data.results.map(m => new Movie(m));
 
      displayMovies(movies,'search');
+
+     return movies;
 }
 
 export async function searchPersons(query) {
@@ -77,31 +80,25 @@ export async function searchPersons(query) {
      const persons = data.results.map(p => new Person(p));
 
      displayPersons(persons, 'search');
+
+     return persons;
 }
 
 export async function searchAll(query) {
-     document.querySelector('.search-content').innerHTML = ''
-
      const [movies, persons] = await Promise.all([
           searchMovies(query),
           searchPersons(query)
      ]);
 
-     displayMovies(movies, 'search');
-     displayPersons(persons, 'search');
+     return { movies, persons };
 }
 
 export async function loadPerson() {
-     /* const url = `https://api.themoviedb.org/3/person/${person_id}`;
- */
-     /* const movieCreditUrl = `https://api.themoviedb.org/3/person/${person_id}/movie_credits`;
- */
-
      const url = 'https://api.themoviedb.org/3/person/popular?language=en-US&page=1';
      const data = await fetchUrl(url);
      const persons = data.results.map(p => new Person(p));
 
-     displayPersons(persons, 'popular');
+     displayPopularPerson(persons);
 }
 
 export async function personWork(id) {

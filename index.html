@@ -10,11 +10,10 @@
 <body>
      <header>
           <h1>CineRate</h1>
-          <search>
-               <form>
-                    <input id="searchBar" name="search" placeholder="search">
-               </form>
-          </search>
+          <form id="searchForm">
+               <input type="text" id="searchBar" placeholder="Search" />
+               <button type="submit">Search</button>
+          </form>
      </header>
 
      <div id="movie-view">
@@ -36,11 +35,10 @@
      <div id="search-view">
           <div class="dropdown">
                <button class="dropdown-btn">Choose genre</button>
-               <div class="dropdown-content show"></div>
+               <div class="dropdown-content"></div>
           </div>
           <div class="search-content"></div>
      </div>
 
-     <div class="no-show" id="detail-view"></div>
 </body>
 </html>

@@ -7,7 +7,23 @@ export function displayPersons(persons, type) {
      })
 }
 
-function createPersonCard(person, type) {
+export function displayPopularPerson(person) {
+     const container = document.querySelector('.person-container');
+
+     person.forEach(p => {
+          container.append(createPersonCard(p));
+     })
+}
+
+export function displaySearchPersons(persons) {
+     const container = document.querySelector('.personContainer');
+
+     persons.forEach(person => {
+          container.append(createPersonCard(person));
+     })
+}
+
+function createPersonCard(person) {
      const personCard = document.createElement('div');
      const img = document.createElement('img');
      const name = document.createElement('p');
@@ -25,12 +41,7 @@ function createPersonCard(person, type) {
      showMore.innerText = 'Show more';
      personCard.append(img, name, professionRole, knownFor, famousWork, showMore);
 
-     if (type === 'popular') {
-          document.querySelector('.person-container').append(personCard);
-     } else if(type === 'search') {
-          document.querySelector('.search-content').append(personCard);
-     }
-
      showMore.href = `./detail/detail.html?person=` + person.getId();
-}
 
+     return personCard;
+}

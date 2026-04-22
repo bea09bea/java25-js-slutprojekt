@@ -4,19 +4,54 @@
 import {loadGenres, loadMovies} from "./api.js";
 
 
-const topTen = document.createElement('div');
-topTen.classList.add('topTen');
-
-const popular = document.createElement('div');
-popular.classList.add('popular');
-
 
 export function displayMovies(movies, type) {
-/*      document.querySelector('.search-content').innerHTML = '';
- */
+
      movies.forEach(movie => {
           createMovieCard(movie, type);
      });
+}
+
+export function displayPopularMovies(movies) {
+     const popular = document.createElement('div');
+     popular.classList.add('popular');
+     const container = document.querySelector('.popularContainer');
+     container.append(popular);
+
+     movies.forEach(m => {
+          popular.append(createMovieCard(m));
+     })
+}
+
+export function displayTopMovies(movies) {
+     const topTen = document.createElement('div');
+     topTen.classList.add('topTen');
+
+     const container = document.querySelector('.topTenContainer');
+     container.append(topTen);
+
+     movies.forEach(m => {
+          topTen.append(createMovieCard(m));
+     })
+}
+
+export function displayGenres(movies) {
+   const searchContent = document.querySelector('.search-content');
+
+   //skapa container OM den inte finns
+   let movieContainer = searchContent.querySelector('.movieContainer');
+
+   if (!movieContainer) {
+      movieContainer = document.createElement('div');
+      movieContainer.classList.add('movieContainer');
+      searchContent.appendChild(movieContainer);
+   }
+
+   movieContainer.innerHTML = '';
+
+   movies.forEach(m => {
+      movieContainer.appendChild(createMovieCard(m));
+   });
 }
 
 function createMovieCard(movie, type) {
@@ -36,43 +71,47 @@ function createMovieCard(movie, type) {
      starContainer.append(star);
      movieCard.append(img, starContainer, title, showMore);
      
-     if (type === 'popular') {
+   /*   if (type === 'popular') {
           popularMovies(movieCard);
      } else if(type === 'top') {
           topTenMovies(movieCard);
      } else if(type === 'search') {
           search(movieCard);
-     }
+     } */
 
      showMore.href = `./detail/detail.html?movie=` + movie.getId();
+
+     return movieCard;
 }
 
-function popularMovies(movieCard) {
-     document.querySelector('.popularContainer').append(popular);
-
-     popular.append(movieCard);
-}
-
-function topTenMovies(movieCard) {
-     document.querySelector('.topTenContainer').append(topTen);
-
-     topTen.append(movieCard);
-}
-
-function search(movieCard) {
+function search(card) {
      const searchContent = document.querySelector('.search-content');
-     searchContent.append(movieCard);
+     
+     searchContent.append(card);
 }
 
-export function dropdownButton() {
+let genresCache = null;
+async function getGenre() {
+     if (genresCache) {
+          return genresCache;
+     }
+
+     genresCache = await loadGenres();
+     return genresCache;
+}
+
+export async function dropdownButton() {
      const dropdown = document.querySelector('.dropdown-content');
      const dropdownBtn = document.querySelector('.dropdown-btn');
 
      dropdown.classList.toggle('show');
      dropdownBtn.classList.toggle('borderBtn');
 
-     loadGenres().then(genres => {
-          genres.forEach(genre => {
+     const genres = await getGenre();
+
+     if (dropdown.dataset.loaded === 'true') return;
+
+     genres.forEach(genre => {
                const genreDiv = document.createElement('div');
                genreDiv.innerText = genre.name;
 
@@ -81,5 +120,13 @@ export function dropdownButton() {
                });
                dropdown.append(genreDiv);
           });
-     });
+     dropdown.dataset.loaded = 'true';
+}
+
+export function displaySearchMovies(movies) {
+     const container = document.querySelector('.movieContainer');
+
+     movies.forEach(m => {
+          container.append(createMovieCard(m));
+     })
 }
