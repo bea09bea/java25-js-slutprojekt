@@ -18,15 +18,40 @@ export async function fetchUrl(url) {
           }
      };
 
-     const response = await fetch(url, options);
-     const data = await response.json();
-     return data;
+     try {
+          const response = await fetch(url, options);
+
+          if (!response.ok) {
+               throw new Error(`API error: ${response.status} ${response.statusText}`)
+          }
+
+          const data = await response.json();
+          return data;
+     } catch(error) {
+          /* throw new Error(error.message ||'Could not get data. Check your internet connection'); */
+          throw error;
+     }
+}
+
+async function safeLoad(fn) {
+     try {
+          return await fn();
+     } catch(error) {
+          showError(error.message);
+          return null;
+     }
+}
+
+function showError(message) {
+     alert(message);
 }
 
 export async function loadPopularMovies() {
      const url = 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1';
 
-     const data = await fetchUrl(url);
+     const data = await safeLoad(() => fetchUrl(url));
+     if (!data) return;
+
      const top10Popular = data.results.slice(0,10);
      const movies = top10Popular.map(movie => new Movie(movie));
      displayPopularMovies(movies);

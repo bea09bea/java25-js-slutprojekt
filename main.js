@@ -4,15 +4,35 @@ import {displayPersons, displaySearchPersons} from "./modules/personUi.js";
 import { Movie } from "./modules/movieClass.js";
 import { Person } from "./modules/personClass.js";
 
+function viewToggle() {
+     const mButton = document.querySelector('.showMovies');
+     const pButton = document.querySelector('.showPersons');
+
+     const movieView = document.querySelector('.movie-view');
+     const personView = document.querySelector('.person-view');
+
+     mButton.addEventListener('click',() => {
+          movieView.classList.remove('no-show');
+          personView.classList.add('no-show');
+     })
+
+     pButton.addEventListener('click', () => {
+          personView.classList.remove('no-show');
+          movieView.classList.add('no-show');
+     })
+}
 
 function start() {
+
      loadPopularMovies();
      loadTopMovies();
      loadPerson();
 
+     viewToggle()
+
      //Default 28 = action
-/*      loadMovies(28);
- */
+     loadMovies(28);
+
      const form = document.querySelector('#searchForm');
      const input = document.querySelector('#searchBar');
 
@@ -27,20 +47,19 @@ function start() {
                alert("You have to write something first");
 
                //Default 28 = action
-               /* loadMovies(28); */
+               loadMovies(28);
                return;
           }
-
-          searchLayout();
 
           //hämta data från api
           const {movies, persons} = await searchAll(query);
 
           if (movies.length === 0 && persons.length === 0) {
                alert("No results found, try again");
+               input.value = '';
                return;
           }
-
+          searchLayout();
           displaySearchMovies(movies, 'search');
           displaySearchPersons(persons, 'search');
 
