@@ -4,7 +4,14 @@ import {displayPersons, displaySearchPersons} from "./modules/personUi.js";
 import { Movie } from "./modules/movieClass.js";
 import { Person } from "./modules/personClass.js";
 
+//Används för att sortera filmer
 let currentMovies = [];
+
+function showError(message) {
+    const errorBox = document.querySelector('.error');
+    errorBox.textContent = message;
+    errorBox.classList.add('show');
+}
 
 function viewToggle() {
      const mButton = document.querySelector('.showMovies');
@@ -24,8 +31,25 @@ function viewToggle() {
      })
 }
 
-async function start() {
+function searchLayout() {
+     const searchContent = document.querySelector('.search-content');
+     const movieT = document.createElement('h2');
+     const personT = document.createElement('h2');
+     const movieContainer = document.createElement('div');
+     const personContainer = document.createElement('div');
+     
+     movieContainer.classList.add('movieContainer');
+     personContainer.classList.add('personContainer');
 
+     movieT.innerText = 'Movies: ';
+     personT.innerText = 'Persons: ';
+
+     searchContent.innerHTML = '';
+     searchContent.append(movieT, movieContainer, personT, personContainer);
+}
+
+async function start() {
+     //ladda data från api
      loadPopularMovies();
      loadTopMovies();
      loadPerson();
@@ -86,6 +110,7 @@ async function start() {
 }
 start();
 
+//Sortera dropdown
 const select = document.querySelector('select');
 select.addEventListener('change', (e) => {
      const value = e.target.value;
@@ -94,21 +119,5 @@ select.addEventListener('change', (e) => {
      displayGenres(sorted);
 });
 
+//Välja genre dropdown 
 document.querySelector('.dropdown-btn').addEventListener('click', dropdownButton);
-
-function searchLayout() {
-     const searchContent = document.querySelector('.search-content');
-     const movieT = document.createElement('h2');
-     const personT = document.createElement('h2');
-     const movieContainer = document.createElement('div');
-     const personContainer = document.createElement('div');
-     
-     movieContainer.classList.add('movieContainer');
-     personContainer.classList.add('personContainer');
-
-     movieT.innerText = 'Movies: ';
-     personT.innerText = 'Persons: ';
-
-     searchContent.innerHTML = '';
-     searchContent.append(movieT, movieContainer, personT, personContainer);
-}

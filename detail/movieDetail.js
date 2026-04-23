@@ -1,6 +1,7 @@
+////Här skapas element med tillhörande data från api för film utifrån id i url
+
 import {fetchUrl, loadMovieDetails} from "../modules/api.js";
 import { Movie } from "../modules/movieClass.js";
-
 
 const params = new URLSearchParams(window.location.search);
 const movieId = params.get('movie');

@@ -1,3 +1,5 @@
+import {personWork} from "./api.js";
+
 //Här är grunden för det visuella för personer
 //Alltså hur html är uppbyggd och hur datan från api används
 
@@ -7,12 +9,16 @@ export function displayPersons(persons, type) {
      })
 }
 
-export function displayPopularPerson(person) {
+export async function displayPopularPerson(persons) {
      const container = document.querySelector('.person-container');
 
-     person.forEach(p => {
-          container.append(createPersonCard(p));
-     })
+     container.innerHTML = '';
+
+     const cards = await Promise.all(
+        persons.map(p => createPersonCard(p))
+    );
+
+     cards.forEach(card => container.append(card));
 }
 
 export function displaySearchPersons(persons) {
@@ -23,12 +29,12 @@ export function displaySearchPersons(persons) {
      })
 }
 
-function createPersonCard(person) {
+async function createPersonCard(person) {
      const personCard = document.createElement('div');
      const img = document.createElement('img');
      const name = document.createElement('p');
      const professionRole = document.createElement('p');
-     const knownFor = document.createElement('p');
+     const knownFor = document.createElement('ul');
      const famousWork = document.createElement('ul');
      const showMore = document.createElement('a');
 
@@ -38,6 +44,13 @@ function createPersonCard(person) {
      professionRole.innerText = person.getProfessionalRole();
      knownFor.id = 'knownFor';
      knownFor.innerText = 'Known for: ';
+     const work = await personWork(person.getId());
+     work.slice(0, 3).forEach(w => {
+     const p = document.createElement('li');
+     p.innerText = w.title; 
+     knownFor.append(p);
+     });
+
      showMore.innerText = 'Show more';
      personCard.append(img, name, professionRole, knownFor, famousWork, showMore);
 

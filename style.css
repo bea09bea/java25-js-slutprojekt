@@ -21,6 +21,11 @@ body {
      display: none !important;
 }
 
+.error {
+     background-color: red;
+     color: black;
+}
+
 header {
      display: flex;
      justify-content: space-between;
@@ -36,7 +41,7 @@ header > h1 {
      color: transparent;
 }
 
-body > div:nth-child(2) {
+.viewBtn {
      display: flex;
      flex-direction: row;
      justify-content: center;
@@ -60,6 +65,7 @@ body > div:nth-child(2) {
 
 h2 {
      color: white;
+     margin-bottom: 10px;
 }
 
 #searchBar {
@@ -131,6 +137,9 @@ h2 {
 
 #knownFor {
      margin-bottom: 0px;
+     color: white;
+     margin: 5px;
+     font-size: 20px;
 }
 
 ul {
@@ -249,6 +258,7 @@ select {
      padding: 10px;
      font-size: 20px;
      font-weight: 300;
+     cursor: pointer;
 }
 
 .search-content {
@@ -256,16 +266,17 @@ select {
      flex-direction: column;
 }
 
+.search-content > h2 {
+     margin-left: 50px;
+
+}
+
 .search-nav {
      display: flex;
 }
 
-.movieContainer {
+.movieContainer, .personContainer {
      display: flex;
      margin: 50px;
-}
-
-.personContainer {
-     display: flex;
-     margin: 50px;
+     margin-top: 10px;
 }

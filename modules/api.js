@@ -22,15 +22,29 @@ export async function fetchUrl(url) {
           const response = await fetch(url, options);
 
           if (!response.ok) {
-               throw new Error(`API error: ${response.status} ${response.statusText}`)
+               throw new Error(getErrorMessage(response.status));
           }
 
           const data = await response.json();
           return data;
      } catch(error) {
-          /* throw new Error(error.message ||'Could not get data. Check your internet connection'); */
           throw error;
      }
+}
+
+function getErrorMessage(status) {
+    switch (status) {
+        case 200:
+            return "Everything is OK.";
+        case 401:
+            return "Invalid API key. Please check your credentials.";
+        case 404:
+            return "The requested data could not be found (wrong URL or missing resource).";
+        case 500:
+            return "Server error. Please try again later.";
+        default:
+            return "Something went wrong. Please try again.";
+    }
 }
 
 async function safeLoad(fn) {
@@ -47,69 +61,95 @@ function showError(message) {
 }
 
 export async function loadPopularMovies() {
-     const url = 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1';
+    try {
+          const url = 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1';
 
-     const data = await safeLoad(() => fetchUrl(url));
-     if (!data) return;
+          const data = await safeLoad(() => fetchUrl(url));
+          if (!data) return;
 
-     const top10Popular = data.results.slice(0,10);
-     const movies = top10Popular.map(movie => new Movie(movie));
-     displayPopularMovies(movies);
+          const top10Popular = data.results.slice(0,10);
+          const movies = top10Popular.map(movie => new Movie(movie));
+          displayPopularMovies(movies);
+    } catch (error) {
+          throw new Error(error.message);
+
+    }    
 }
 
 export async function loadTopMovies() {
-     const url = 'https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1';
+     try {
+          const url = 'https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1';
 
-     const data = await fetchUrl(url);
+          const data = await fetchUrl(url);
 
-     //10 första
-     const top10 = data.results.slice(0,10);
-     const movies = top10.map(m => new Movie(m));
-     displayTopMovies(movies);
+          //10 första
+          const top10 = data.results.slice(0,10);
+          const movies = top10.map(m => new Movie(m));
+          displayTopMovies(movies);
+     } catch (error) {
+               throw new Error(error.message);
+
+     }
 }
 
 export async function loadGenres() {
-     const url = 'https://api.themoviedb.org/3/genre/movie/list?language=en';
-     const data = await fetchUrl(url);
-     return data.genres;
+    try {
+          const url = 'https://api.themoviedb.org/3/genre/movie/list?language=en';
+          const data = await fetchUrl(url);
+          return data.genres;
+     } catch (error) {
+          throw new Error(error.message);
+     }
 }
 
 export async function loadMovies(genreId) {
-     let url = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1';
+     try {
+          let url = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1';
 
-     if(genreId) {
-          url += `&with_genres=${genreId}`;
+               if(genreId) {
+                    url += `&with_genres=${genreId}`;
+               }
+
+               const data = await fetchUrl(url);
+               const movies = data.results.map(m => new Movie(m));
+
+               return movies;
+     } catch (error) {
+          throw new Error(error.message);
      }
-
-     const data = await fetchUrl(url);
-     const movies = data.results.map(m => new Movie(m));
-
-     return movies;
 }
 
 export async function searchMovies(query) {
-     const url = `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`;
+    try {
+          const url = `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`;
 
-     const data = await fetchUrl(url);
-     const movies = data.results.map(m => new Movie(m));
+          const data = await fetchUrl(url);
+          const movies = data.results.map(m => new Movie(m));
 
-     displayMovies(movies,'search');
+          displayMovies(movies,'search');
 
-     return movies;
+          return movies;
+    } catch (error) {
+          throw new Error(error.message);
+    }     
 }
 
 export async function searchPersons(query) {
-     const url = `https://api.themoviedb.org/3/search/person?query=${query}&language=en-US&page=1`;;
+    try {
+          const url = `https://api.themoviedb.org/3/search/person?query=${query}&language=en-US&page=1`;;
 
-     const data = await fetchUrl(url);
-     const persons = data.results.map(p => new Person(p));
+          const data = await fetchUrl(url);
+          const persons = data.results.map(p => new Person(p));
 
-     displayPersons(persons, 'search');
+          displayPersons(persons, 'search');
 
-     return persons;
+          return persons;
+    } catch (error) {
+          throw new Error(error.message);
+    }     
 }
 
-export async function searchAll(query) {
+export async function searchAll(query) {     
      const [movies, persons] = await Promise.all([
           searchMovies(query),
           searchPersons(query)
@@ -119,14 +159,19 @@ export async function searchAll(query) {
 }
 
 export async function loadPerson() {
-     const url = 'https://api.themoviedb.org/3/person/popular?language=en-US&page=1';
-     const data = await fetchUrl(url);
-     const persons = data.results.map(p => new Person(p));
+    try {
+          const url = 'https://api.themoviedb.org/3/person/popular?language=en-US&page=1';
+          const data = await fetchUrl(url);
+          const persons = data.results.map(p => new Person(p));
 
-     displayPopularPerson(persons);
+          displayPopularPerson(persons);
+    } catch (error) {
+          throw new Error(error.message);
+    }     
 }
 
 export async function personWork(id) {
+    try {
      const url = `https://api.themoviedb.org/3/person/${id}/combined_credits`
      const data = await fetchUrl(url);
 
@@ -135,25 +180,36 @@ export async function personWork(id) {
           .sort((a, b) => b.popularity - a.popularity)
           .slice(0,5);
 
-          return top5;
+     return top5;
+    } catch (error) {
+          throw new Error(error.message);
+    }     
 }
 
 export async function loadPersonDetails(id) {
-     const url = `https://api.themoviedb.org/3/person/${id}`;
-     const data = await fetchUrl(url);
-     const person = new Person(data);
+    try {
+          const url = `https://api.themoviedb.org/3/person/${id}`;
+          const data = await fetchUrl(url);
+          const person = new Person(data);
 
-     const top5 = await personWork(person.getId());
+          const top5 = await personWork(person.getId());
 
-     displayPersonsDetail(person, top5);
+          displayPersonsDetail(person, top5);
+    } catch (error) {
+          throw new Error(error.message);
+    }     
 }
 
 export async function loadMovieDetails(id) {
-     const url = `https://api.themoviedb.org/3/movie/${id}`;
-     const data = await fetchUrl(url);
-     const movie = new Movie(data);
-     console.log(data)
-     console.log(movie)
+    try {
+          const url = `https://api.themoviedb.org/3/movie/${id}`;
+          const data = await fetchUrl(url);
+          const movie = new Movie(data);
+          console.log(data)
+          console.log(movie)
 
-     displayMoviesDetail(movie);
+          displayMoviesDetail(movie);
+    } catch (error) {
+          throw new Error(error.message);
+    }     
 }

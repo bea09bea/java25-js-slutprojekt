@@ -1,3 +1,5 @@
+//Här skapas element med tillhörande data från api för person utifrån id i url
+
 import { fetchUrl, personWork, loadPersonDetails } from "../modules/api.js";
 import { Person } from "../modules/personClass.js";
 
@@ -7,28 +9,6 @@ const personId = params.get('person');
 if (personId) {
      loadPersonDetails(personId);
 } 
-
-/* export async function personWork(id) {
-     const url = `https://api.themoviedb.org/3/person/${id}/combined_credits`
-     const data = await fetchUrl(url);
-
-     const top5 = data.cast
-          .filter(m => m.media_type === 'movie')
-          .sort((a, b) => b.popularity - a.popularity)
-          .slice(0,5);
-
-          return top5;
-}
-
-export async function loadPersonDetails(id) {
-     const url = `https://api.themoviedb.org/3/person/${id}`;
-     const data = await fetchUrl(url);
-     const person = new Person(data);
-
-     const top5 = await personWork(person.getId());
-
-     displayPersonsDetail(person, top5);
-} */
 
 function gender(value) {
      if (value === 3) {
