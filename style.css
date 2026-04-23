@@ -168,7 +168,6 @@ li {
 .dropdown {
      position: relative;
      display: inline-block;
-     margin-left: 100px;
 }
 
 .dropdown-btn {
@@ -207,7 +206,7 @@ li {
 }
 
 .dropdown-content div:hover {
-     background-color: blue;
+     background-color: gray;
 }
 
 .show {
@@ -216,6 +215,40 @@ li {
 
 .borderBtn {
      border-radius: 10px 10px 0px 0px;
+}
+
+form > button {
+     cursor: pointer;
+}
+
+form > button:hover {
+     background-color: var(--Webb-title-blue);
+     color: white;
+}
+
+#search-view {
+     display: flex;
+     flex-direction: column;
+     margin-top: 100px;
+}
+
+.filter > h2 {
+     margin-left: 50px;
+}
+
+.filter {
+     display: flex;
+     flex-direction: row;
+     gap: 40px;
+}
+
+select {
+     background-color: black;
+     color: white;
+     border-radius: 10px;
+     padding: 10px;
+     font-size: 20px;
+     font-weight: 300;
 }
 
 .search-content {

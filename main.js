@@ -1,8 +1,10 @@
 import { fetchUrl, loadPopularMovies, loadTopMovies, loadPerson, loadMovies, searchAll } from "./modules/api.js";
-import { dropdownButton, displayMovies, displaySearchMovies } from "./modules/movieUi.js";
+import { dropdownButton, displayMovies, displaySearchMovies, sortMovies, displayGenres } from "./modules/movieUi.js";
 import {displayPersons, displaySearchPersons} from "./modules/personUi.js";
 import { Movie } from "./modules/movieClass.js";
 import { Person } from "./modules/personClass.js";
+
+let currentMovies = [];
 
 function viewToggle() {
      const mButton = document.querySelector('.showMovies');
@@ -22,7 +24,7 @@ function viewToggle() {
      })
 }
 
-function start() {
+async function start() {
 
      loadPopularMovies();
      loadTopMovies();
@@ -30,9 +32,11 @@ function start() {
 
      viewToggle()
 
-     //Default 28 = action
-     loadMovies(28);
+     //Default läge 28 = action
+     currentMovies = await loadMovies(28);
 
+     displayGenres(currentMovies);
+     
      const form = document.querySelector('#searchForm');
      const input = document.querySelector('#searchBar');
 
@@ -46,7 +50,7 @@ function start() {
           if(query === '') {
                alert("You have to write something first");
 
-               //Default 28 = action
+               //Default läge 28 = action
                loadMovies(28);
                return;
           }
@@ -81,6 +85,14 @@ function start() {
      });
 }
 start();
+
+const select = document.querySelector('select');
+select.addEventListener('change', (e) => {
+     const value = e.target.value;
+     const sorted = sortMovies(currentMovies, value);
+
+     displayGenres(sorted);
+});
 
 document.querySelector('.dropdown-btn').addEventListener('click', dropdownButton);
 

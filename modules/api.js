@@ -84,7 +84,7 @@ export async function loadMovies(genreId) {
      const data = await fetchUrl(url);
      const movies = data.results.map(m => new Movie(m));
 
-     displayGenres(movies);
+     return movies;
 }
 
 export async function searchMovies(query) {

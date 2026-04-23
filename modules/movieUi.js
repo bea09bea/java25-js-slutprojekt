@@ -4,7 +4,6 @@
 import {loadGenres, loadMovies} from "./api.js";
 
 
-
 export function displayMovies(movies, type) {
 
      movies.forEach(movie => {
@@ -33,6 +32,29 @@ export function displayTopMovies(movies) {
      movies.forEach(m => {
           topTen.append(createMovieCard(m));
      })
+}
+
+export function sortMovies(movies, type) {
+     let sorted = [...movies];
+
+     console.log(movies[0])
+
+     switch(type) {
+          case 'alpha-asc':
+               sorted.sort((a,b) => a.getTitle() > b.getTitle() ? 1 : -1);
+               break;
+          case 'alpha-desc':
+               sorted.sort((a,b) => a.getTitle() < b.getTitle() ? 1 : -1);
+               break;
+          case 'score-asc':
+               sorted.sort((a,b) => a.getRating() - b.getRating());
+               break;
+          case 'score-desc':
+               sorted.sort((a,b) => b.getRating() - a.getRating());
+               break;
+     }
+
+     return sorted;
 }
 
 export function displayGenres(movies) {
@@ -70,14 +92,6 @@ function createMovieCard(movie, type) {
 
      starContainer.append(star);
      movieCard.append(img, starContainer, title, showMore);
-     
-   /*   if (type === 'popular') {
-          popularMovies(movieCard);
-     } else if(type === 'top') {
-          topTenMovies(movieCard);
-     } else if(type === 'search') {
-          search(movieCard);
-     } */
 
      showMore.href = `./detail/detail.html?movie=` + movie.getId();
 
