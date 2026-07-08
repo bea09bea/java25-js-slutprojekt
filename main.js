@@ -31,7 +31,7 @@ function viewToggle() {
      })
 }
 
-function searchLayout() {
+/* function searchLayout() {
      const searchContent = document.querySelector('.search-content');
      const movieT = document.createElement('h2');
      const personT = document.createElement('h2');
@@ -46,6 +46,68 @@ function searchLayout() {
 
      searchContent.innerHTML = '';
      searchContent.append(movieT, movieContainer, personT, personContainer);
+} */
+
+function searchLayout() {
+     const searchContent = document.querySelector('.search-content');
+
+     searchContent.innerHTML = '';
+
+     // --- MOVIES SLIDER ---
+     const movieTitle = document.createElement('h2');
+     movieTitle.innerText = 'Movies';
+
+     const movieSlider = document.createElement('div');
+     movieSlider.classList.add('slider', 'search-movie-slider');
+
+     const moviePrev = document.createElement('button');
+     moviePrev.classList.add('slider-btn', 'prev');
+     moviePrev.innerText = '‹';
+
+     const movieViewport = document.createElement('div');
+     movieViewport.classList.add('slider-viewport');
+
+     const movieTrack = document.createElement('div');
+     movieTrack.classList.add('slider-track');
+
+     const movieNext = document.createElement('button');
+     movieNext.classList.add('slider-btn', 'next');
+     movieNext.innerText = '›';
+
+     movieViewport.appendChild(movieTrack);
+     movieSlider.append(moviePrev, movieViewport, movieNext);
+
+     // --- PERSONS SLIDER ---
+     const personTitle = document.createElement('h2');
+     personTitle.innerText = 'Persons';
+
+     const personSlider = document.createElement('div');
+     personSlider.classList.add('slider', 'search-person-slider');
+
+     const personPrev = document.createElement('button');
+     personPrev.classList.add('slider-btn', 'prev');
+     personPrev.innerText = '‹';
+
+     const personViewport = document.createElement('div');
+     personViewport.classList.add('slider-viewport');
+
+     const personTrack = document.createElement('div');
+     personTrack.classList.add('slider-track');
+
+     const personNext = document.createElement('button');
+     personNext.classList.add('slider-btn', 'next');
+     personNext.innerText = '›';
+
+     personViewport.appendChild(personTrack);
+     personSlider.append(personPrev, personViewport, personNext);
+
+     // append allt
+     searchContent.append(
+          movieTitle,
+          movieSlider,
+          personTitle,
+          personSlider
+     );
 }
 
 async function start() {
@@ -87,10 +149,14 @@ async function start() {
                input.value = '';
                return;
           }
+
+
           searchLayout();
           displaySearchMovies(movies, 'search');
           displaySearchPersons(persons, 'search');
 
+          initSlider('.search-movie-slider');
+initSlider('.search-person-slider');
           //Scrollas till resultat 
           //setTimeout väntar först tills resultat laddat klart 
           setTimeout(() => {
@@ -110,13 +176,24 @@ async function start() {
 }
 start();
 
+export function setCurrentMovies(movies) {
+    currentMovies = movies;
+}
+
 //Sortera dropdown
 const select = document.querySelector('select');
+
 select.addEventListener('change', (e) => {
      const value = e.target.value;
-     const sorted = sortMovies(currentMovies, value);
 
-     displayGenres(sorted);
+     const sorted = sortMovies([...currentMovies], value);
+
+     currentMovies = sorted;
+
+     if (!document.querySelector('.search-content') || 
+         document.querySelector('#search-view').style.display === 'none') {
+          displayGenres(sorted);
+     }
 });
 
 //Välja genre dropdown 

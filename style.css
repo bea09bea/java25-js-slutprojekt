@@ -142,6 +142,10 @@ h2 {
      font-size: 20px;
 }
 
+#date {
+     font-size: 16px;
+}
+
 ul {
      margin: 0px;
 }
@@ -279,4 +283,38 @@ select {
      display: flex;
      margin: 50px;
      margin-top: 10px;
+}
+
+
+
+
+.slider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 100%;
+}
+
+.slider-viewport {
+    overflow: hidden;
+    width: 100%;
+}
+
+.slider-track {
+    display: flex;
+    transition: transform 0.4s ease;
+    gap: 20px;
+}
+
+.slider-btn {
+    background: black;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.genre-slider {
+     margin: 50px;
 }

@@ -2,6 +2,7 @@
 //Alltså hur html är uppbyggd och hur datan från api används
 
 import {loadGenres, loadMovies} from "./api.js";
+import { setCurrentMovies } from '../main.js';
 
 
 export function displayMovies(movies, type) {
@@ -11,18 +12,61 @@ export function displayMovies(movies, type) {
      });
 }
 
-export function displayPopularMovies(movies) {
-     const popular = document.createElement('div');
-     popular.classList.add('popular');
-     const container = document.querySelector('.popularContainer');
-     container.append(popular);
+export function initSlider(containerSelector, movies) {
+    const container = document.querySelector(containerSelector);
 
-     movies.forEach(m => {
-          popular.append(createMovieCard(m));
-     })
+    const track = container.querySelector('.slider-track');
+    const next = container.querySelector('.next');
+    const prev = container.querySelector('.prev');
+
+    let index = 0;
+    const visibleCards = 3;
+
+    track.innerHTML = '';
+
+    movies.forEach(m => {
+        const card = createMovieCard(m);
+        card.classList.add('slider-card');
+        track.append(card);
+    });
+
+    const total = movies.length;
+
+    function update() {
+        const cardWidth = track.children[0].offsetWidth + 20;
+        track.style.transform = `translateX(-${index * cardWidth}px)`;
+    }
+
+    next.onclick = () => {
+        if (index < total - visibleCards) {
+            index++;
+            update();
+        }
+    };
+
+    prev.onclick = () => {
+        if (index > 0) {
+            index--;
+            update();
+        }
+    };
+
+    window.addEventListener('resize', update);
+
+    update();
+}
+
+
+export function displayPopularMovies(movies) {
+    initSlider('.popular-slider', movies);
 }
 
 export function displayTopMovies(movies) {
+    initSlider('.top-slider', movies);
+}
+
+/* export function displayTopMovies(movies) {
+
      const topTen = document.createElement('div');
      topTen.classList.add('topTen');
 
@@ -32,7 +76,34 @@ export function displayTopMovies(movies) {
      movies.forEach(m => {
           topTen.append(createMovieCard(m));
      })
+         initSlider(movies);
+
 }
+ */
+/* export function displayPopularMovies(movies) {
+     const popular = document.createElement('div');
+     popular.classList.add('popular');
+     const container = document.querySelector('.popularContainer');
+     container.append(popular);
+
+     const slide = document.querySelector('.card-wrapper');
+     
+
+     movies.forEach(m => {
+          const card = createMovieCard(m);
+          card.classList.add('swiper-slide'); 
+          slide.append(createMovieCard(m))
+
+
+          popular.append(createMovieCard(m));
+          
+     });
+     new Swiper(".slide-container", {
+    slidesPerView: 3,
+    spaceBetween: 25,
+});
+} */
+
 
 export function sortMovies(movies, type) {
      let sorted = [...movies];
@@ -58,6 +129,10 @@ export function sortMovies(movies, type) {
 }
 
 export function displayGenres(movies) {
+   initSlider('.genre-slider', movies, createMovieCard);
+}
+
+/* export function displayGenres(movies) {
    const searchContent = document.querySelector('.search-content');
 
    //skapa container OM den inte finns
@@ -75,13 +150,14 @@ export function displayGenres(movies) {
       movieContainer.appendChild(createMovieCard(m));
    });
 }
-
+ */
 function createMovieCard(movie, type) {
      const movieCard = document.createElement('div');
      const img = document.createElement('img');
      const starContainer = document.createElement('div');
      const star = document.createElement('p');
      const title = document.createElement('p');
+     const date = document.createElement('p');
      const showMore = document.createElement('a');
      
      img.src = 'https://image.tmdb.org/t/p/w500' + movie.getImg();
@@ -89,9 +165,11 @@ function createMovieCard(movie, type) {
      showMore.innerText = 'Show more';
      movieCard.classList.add('movie-card');
      title.innerText = movie.getTitle();
+     date.innerText = 'Release date: ' + movie.getReleaseDate();
+     date.id = 'date';
 
      starContainer.append(star);
-     movieCard.append(img, starContainer, title, showMore);
+     movieCard.append(img, starContainer, title,date, showMore);
 
      showMore.href = `./detail/detail.html?movie=` + movie.getId();
 
@@ -114,7 +192,7 @@ async function getGenre() {
      return genresCache;
 }
 
-export async function dropdownButton() {
+/* export async function dropdownButton() {
      const dropdown = document.querySelector('.dropdown-content');
      const dropdownBtn = document.querySelector('.dropdown-btn');
 
@@ -135,12 +213,56 @@ export async function dropdownButton() {
                dropdown.append(genreDiv);
           });
      dropdown.dataset.loaded = 'true';
+} */
+
+export async function dropdownButton() {
+     const dropdown = document.querySelector('.dropdown-content');
+     const dropdownBtn = document.querySelector('.dropdown-btn');
+
+     dropdown.classList.toggle('show');
+     dropdownBtn.classList.toggle('borderBtn');
+
+     // stoppa dubbel-loading
+     if (dropdown.dataset.loaded === 'true') return;
+
+     try {
+          const genres = await getGenre();
+
+          genres.forEach(genre => {
+               const genreDiv = document.createElement('div');
+               genreDiv.classList.add('genre-item');
+               genreDiv.innerText = genre.name;
+
+               genreDiv.addEventListener('click', async () => {
+                              const movies = await loadMovies(genre.id);
+
+                              setCurrentMovies(movies);   // 🔥 uppdaterar main state
+
+                              displayGenres(movies);      // render UI
+                         });
+
+               dropdown.append(genreDiv);
+          });
+
+          dropdown.dataset.loaded = 'true';
+
+     } catch (err) {
+          console.error("Genre fetch failed:", err);
+     }
 }
 
 export function displaySearchMovies(movies) {
-     const container = document.querySelector('.movieContainer');
+     /* const container = document.querySelector('.movieContainer');
 
      movies.forEach(m => {
           container.append(createMovieCard(m));
-     })
+     }) */
+      const track = document.querySelector('.search-movie-slider .slider-track');
+
+     track.innerHTML = '';
+
+     movies.forEach(m => {
+          track.append(createMovieCard(m));
+     });
 }
+
