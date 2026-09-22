@@ -1,10 +1,17 @@
 // Här hämtas data från API med GET-förfrågan och returnerar JSON-svar
 // datan görs om till objekt för att sedan användas i movieUi.js & personUi.js 
 
-import {displayMoviesDetail} from "../detail/movieDetail.js";
-import {displayPersonsDetail} from "../detail/personDetail.js";
-import { displayMovies, displayPopularMovies, displayTopMovies, displayGenres } from "./movieUi.js";
-import { displayPersons, displayPopularPerson } from "./personUi.js";
+import {
+    displayMovies,
+    displayPopularMovies,
+    displayTopMovies,
+    displayGenres
+} from "./movieUi.js";
+
+import {
+    displayPersons,
+    displayPopularPerson
+} from "./personUi.js";
 
 import { Movie } from "./movieClass.js";
 import { Person } from "./personClass.js";
@@ -172,44 +179,45 @@ export async function loadPerson() {
 
 export async function personWork(id) {
     try {
-     const url = `https://api.themoviedb.org/3/person/${id}/combined_credits`
-     const data = await fetchUrl(url);
+        const url = `https://api.themoviedb.org/3/person/${id}/combined_credits`;
+        const data = await fetchUrl(url);
 
-     const top5 = data.cast
-          .filter(m => m.media_type === 'movie')
-          .sort((a, b) => b.popularity - a.popularity)
-          .slice(0,5);
+        const top5 = data.cast
+            .filter(m => m.media_type === "movie")
+            .sort((a, b) => b.popularity - a.popularity)
+            .slice(0, 5);
 
-     return top5;
+        return top5;
+
     } catch (error) {
-          throw new Error(error.message);
-    }     
+        throw new Error(error.message);
+    }
 }
 
 export async function loadPersonDetails(id) {
     try {
-          const url = `https://api.themoviedb.org/3/person/${id}`;
-          const data = await fetchUrl(url);
-          const person = new Person(data);
+        const url = `https://api.themoviedb.org/3/person/${id}`;
+        const data = await fetchUrl(url);
 
-          const top5 = await personWork(person.getId());
+        const person = new Person(data);
+        const top5 = await personWork(person.getId());
 
-          displayPersonsDetail(person, top5);
+        return { person, top5 };
+
     } catch (error) {
-          throw new Error(error.message);
-    }     
+        throw new Error(error.message);
+    }
 }
 
-export async function loadMovieDetails(id) {
+    export async function loadMovieDetails(id) {
     try {
-          const url = `https://api.themoviedb.org/3/movie/${id}`;
-          const data = await fetchUrl(url);
-          const movie = new Movie(data);
-          console.log(data)
-          console.log(movie)
+        const url = `https://api.themoviedb.org/3/movie/${id}`;
+        const data = await fetchUrl(url);
 
-          displayMoviesDetail(movie);
+        const movie = new Movie(data);
+
+        return movie;
     } catch (error) {
-          throw new Error(error.message);
-    }     
+        throw new Error(error.message);
+    }
 }

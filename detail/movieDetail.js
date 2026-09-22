@@ -1,14 +1,33 @@
 ////Här skapas element med tillhörande data från api för film utifrån id i url
 
-import {fetchUrl, loadMovieDetails} from "../modules/api.js";
+/* import {fetchUrl, loadMovieDetails} from "../modules/api.js";
 import { Movie } from "../modules/movieClass.js";
 
 const params = new URLSearchParams(window.location.search);
-const movieId = params.get('movie');
+
+const movieId = params.get("movie");
 
 if (movieId) {
-     loadMovieDetails(movieId);
-} 
+    loadMovieDetails(movieId);
+}
+ */
+
+import { loadMovieDetails } from "../modules/api.js";
+
+console.log("MOVIE DETAIL STARTAR");
+
+const params = new URLSearchParams(window.location.search);
+const movieId = params.get("movie");
+
+if (movieId) {
+    loadMovieDetails(movieId)
+        .then(movie => {
+            displayMoviesDetail(movie);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
 
 export function displayMoviesDetail(movie) {
      const img = document.createElement('img');

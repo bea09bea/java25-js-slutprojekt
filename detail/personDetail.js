@@ -1,14 +1,19 @@
 //Här skapas element med tillhörande data från api för person utifrån id i url
-
-import { fetchUrl, personWork, loadPersonDetails } from "../modules/api.js";
-import { Person } from "../modules/personClass.js";
+import { loadPersonDetails } from "../modules/api.js";
 
 const params = new URLSearchParams(window.location.search);
-const personId = params.get('person');
+const personId = params.get("person");
 
 if (personId) {
-     loadPersonDetails(personId);
-} 
+    loadPersonDetails(personId)
+        .then(({ person, top5 }) => {
+            displayPersonsDetail(person, top5);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
 
 function gender(value) {
      if (value === 3) {
@@ -23,6 +28,9 @@ function gender(value) {
 }
 
 export function displayPersonsDetail(person, top5) {
+     console.log("DISPLAY PERSON KÖRS");
+    console.log(person);
+    console.log(top5);
 
      //PartOne (IMG & basic information)
      const img = document.createElement('img');

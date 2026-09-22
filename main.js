@@ -1,11 +1,10 @@
 import { fetchUrl, loadPopularMovies, loadTopMovies, loadPerson, loadMovies, searchAll } from "./modules/api.js";
 import { dropdownButton, displayMovies, displaySearchMovies, sortMovies, displayGenres } from "./modules/movieUi.js";
+import {setCurrentMovies, getCurrentMovies} from './modules/movieState.js';
 import {displayPersons, displaySearchPersons} from "./modules/personUi.js";
-import { Movie } from "./modules/movieClass.js";
-import { Person } from "./modules/personClass.js";
+/* import { Movie } from "./modules/movieClass.js";
+import { Person } from "./modules/personClass.js"; */
 
-//Används för att sortera filmer
-let currentMovies = [];
 
 function showError(message) {
     const errorBox = document.querySelector('.error');
@@ -30,23 +29,6 @@ function viewToggle() {
           movieView.classList.add('no-show');
      })
 }
-
-/* function searchLayout() {
-     const searchContent = document.querySelector('.search-content');
-     const movieT = document.createElement('h2');
-     const personT = document.createElement('h2');
-     const movieContainer = document.createElement('div');
-     const personContainer = document.createElement('div');
-     
-     movieContainer.classList.add('movieContainer');
-     personContainer.classList.add('personContainer');
-
-     movieT.innerText = 'Movies: ';
-     personT.innerText = 'Persons: ';
-
-     searchContent.innerHTML = '';
-     searchContent.append(movieT, movieContainer, personT, personContainer);
-} */
 
 function searchLayout() {
      const searchContent = document.querySelector('.search-content');
@@ -119,9 +101,11 @@ async function start() {
      viewToggle()
 
      //Default läge 28 = action
-     currentMovies = await loadMovies(28);
+     const movies = await loadMovies(28);
 
-     displayGenres(currentMovies);
+     setCurrentMovies(movies);
+
+     displayGenres(movies);
      
      const form = document.querySelector('#searchForm');
      const input = document.querySelector('#searchBar');
@@ -156,7 +140,8 @@ async function start() {
           displaySearchPersons(persons, 'search');
 
           initSlider('.search-movie-slider');
-initSlider('.search-person-slider');
+          initSlider('.search-person-slider');
+
           //Scrollas till resultat 
           //setTimeout väntar först tills resultat laddat klart 
           setTimeout(() => {
@@ -176,24 +161,18 @@ initSlider('.search-person-slider');
 }
 start();
 
-export function setCurrentMovies(movies) {
-    currentMovies = movies;
-}
 
 //Sortera dropdown
 const select = document.querySelector('select');
 
 select.addEventListener('change', (e) => {
-     const value = e.target.value;
+    const value = e.target.value;
 
-     const sorted = sortMovies([...currentMovies], value);
+    const sorted = sortMovies(getCurrentMovies(), value);
 
-     currentMovies = sorted;
+    setCurrentMovies(sorted);
 
-     if (!document.querySelector('.search-content') || 
-         document.querySelector('#search-view').style.display === 'none') {
-          displayGenres(sorted);
-     }
+    displayGenres(sorted);
 });
 
 //Välja genre dropdown 

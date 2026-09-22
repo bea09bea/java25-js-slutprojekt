@@ -2,7 +2,7 @@
 //Alltså hur html är uppbyggd och hur datan från api används
 
 import {loadGenres, loadMovies} from "./api.js";
-import { setCurrentMovies } from '../main.js';
+import { setCurrentMovies } from './movieState.js';
 
 
 export function displayMovies(movies, type) {
@@ -13,6 +13,7 @@ export function displayMovies(movies, type) {
 }
 
 export function initSlider(containerSelector, movies) {
+     
     const container = document.querySelector(containerSelector);
 
     const track = container.querySelector('.slider-track');
@@ -65,50 +66,12 @@ export function displayTopMovies(movies) {
     initSlider('.top-slider', movies);
 }
 
-/* export function displayTopMovies(movies) {
-
-     const topTen = document.createElement('div');
-     topTen.classList.add('topTen');
-
-     const container = document.querySelector('.topTenContainer');
-     container.append(topTen);
-
-     movies.forEach(m => {
-          topTen.append(createMovieCard(m));
-     })
-         initSlider(movies);
-
-}
- */
-/* export function displayPopularMovies(movies) {
-     const popular = document.createElement('div');
-     popular.classList.add('popular');
-     const container = document.querySelector('.popularContainer');
-     container.append(popular);
-
-     const slide = document.querySelector('.card-wrapper');
-     
-
-     movies.forEach(m => {
-          const card = createMovieCard(m);
-          card.classList.add('swiper-slide'); 
-          slide.append(createMovieCard(m))
-
-
-          popular.append(createMovieCard(m));
-          
-     });
-     new Swiper(".slide-container", {
-    slidesPerView: 3,
-    spaceBetween: 25,
-});
-} */
-
-
 export function sortMovies(movies, type) {
      let sorted = [...movies];
 
      console.log(movies[0])
+
+       console.log("SORT TYPE:", type);
 
      switch(type) {
           case 'alpha-asc':
@@ -125,32 +88,15 @@ export function sortMovies(movies, type) {
                break;
      }
 
+         console.log("SORTED:", sorted.map(movie => movie.getTitle()));
+
      return sorted;
 }
 
 export function displayGenres(movies) {
-   initSlider('.genre-slider', movies, createMovieCard);
+    initSlider('.genre-slider', movies);
 }
 
-/* export function displayGenres(movies) {
-   const searchContent = document.querySelector('.search-content');
-
-   //skapa container OM den inte finns
-   let movieContainer = searchContent.querySelector('.movieContainer');
-
-   if (!movieContainer) {
-      movieContainer = document.createElement('div');
-      movieContainer.classList.add('movieContainer');
-      searchContent.appendChild(movieContainer);
-   }
-
-   movieContainer.innerHTML = '';
-
-   movies.forEach(m => {
-      movieContainer.appendChild(createMovieCard(m));
-   });
-}
- */
 function createMovieCard(movie, type) {
      const movieCard = document.createElement('div');
      const img = document.createElement('img');
@@ -192,28 +138,6 @@ async function getGenre() {
      return genresCache;
 }
 
-/* export async function dropdownButton() {
-     const dropdown = document.querySelector('.dropdown-content');
-     const dropdownBtn = document.querySelector('.dropdown-btn');
-
-     dropdown.classList.toggle('show');
-     dropdownBtn.classList.toggle('borderBtn');
-
-     const genres = await getGenre();
-
-     if (dropdown.dataset.loaded === 'true') return;
-
-     genres.forEach(genre => {
-               const genreDiv = document.createElement('div');
-               genreDiv.innerText = genre.name;
-
-               genreDiv.addEventListener('click', function() {
-                    loadMovies(genre.id);
-               });
-               dropdown.append(genreDiv);
-          });
-     dropdown.dataset.loaded = 'true';
-} */
 
 export async function dropdownButton() {
      const dropdown = document.querySelector('.dropdown-content');

@@ -58,32 +58,12 @@ export function displayPersons(persons) {
      initSlider('.popularPerson-slider', persons, createPersonCard);
 }
 
-/* export function displayPersons(persons, type) {
-     persons.forEach(person => {
-          createPersonCard(person, type);
-     })
-} */
-
 export async function displayPopularPerson(persons) {
- /*     const container = document.querySelector('.person-container');
-
-     container.innerHTML = '';
-
-     const cards = await Promise.all(
-        persons.map(p => createPersonCard(p))
-    );
-
-     cards.forEach(card => container.append(card)); */
           initSlider('.popularPerson-slider', persons, createPersonCard);
 
 }
 
 export function displaySearchPersons(persons) {
-     /* const container = document.querySelector('.personContainer');
-
-     persons.forEach(person => {
-          container.append(createPersonCard(person));
-     }) */
 
      const track = document.querySelector('.search-person-slider .slider-track');
 
